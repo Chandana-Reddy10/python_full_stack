@@ -1,0 +1,115 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Checkout</title>
+
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+
+<body>
+
+<header>
+    <h1>MY SHOPPING STORE</h1>
+    <p>Secure Checkout</p>
+</header>
+
+<nav>
+    <a href="{% url 'home' %}">Home</a>
+    <a href="{% url 'cart' %}">Cart</a>
+    <a href="{% url 'checkout' %}">Checkout</a>
+</nav>
+
+<section class="checkout-section">
+
+    {% if success %}
+
+        <div class="success">
+
+            <h2>Order Placed Successfully!</h2>
+
+            <p>Thank you for shopping with us.</p>
+
+            <h3>Order Number: {{ order.id }}</h3>
+
+            <h3>Total Amount: ₹{{ order.total_amount }}</h3>
+
+            <a href="{% url 'home' %}" class="shop-btn">
+                Continue Shopping
+            </a>
+
+        </div>
+
+    {% else %}
+
+        <h2>Checkout</h2>
+
+        <h3>Order Summary</h3>
+
+        {% for item in cart_items %}
+
+            <p>
+                {{ item.product.name }}
+                × {{ item.quantity }}
+                = ₹{{ item.subtotal }}
+            </p>
+
+        {% endfor %}
+
+        <h3>Total Amount: ₹{{ total }}</h3>
+
+        <h3>Customer Details</h3>
+
+        <form method="POST">
+
+            {% csrf_token %}
+
+            <label>Full Name</label>
+
+            <input type="text"
+                   name="name"
+                   placeholder="Enter your name"
+                   required>
+
+            <label>Email Address</label>
+
+            <input type="email"
+                   name="email"
+                   placeholder="Enter your email"
+                   required>
+
+            <label>Phone Number</label>
+
+            <input type="tel"
+                   name="phone"
+                   placeholder="Enter your phone number"
+                   pattern="[0-9]{10}"
+                   required>
+
+            <label>Delivery Address</label>
+
+            <textarea name="address"
+                      placeholder="Enter your complete address"
+                      required></textarea>
+
+            <button type="submit">
+                Place Order
+            </button>
+
+        </form>
+
+    {% endif %}
+
+</section>
+
+<footer>
+    <p>© 2026 My Shopping Store</p>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>My Shopping Store</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+
+        /* Header */
+
+        header {
+            background-color: #222;
+            color: white;
+            padding: 22px;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 30px;
+            margin-bottom: 8px;
+        }
+
+        /* Navigation */
+
+        nav {
+            background-color: #444;
+            padding: 17px;
+            text-align: center;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin: 20px;
+            font-size: 17px;
+        }
+
+        nav a:hover {
+            color: #ff6600;
+        }
+
+        /* Search Bar */
+
+        .search-section {
+            text-align: center;
+            padding: 25px;
+            background-color: white;
+        }
+
+        .search-section input {
+            width: 60%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .search-section button {
+            padding: 12px 20px;
+            background-color: #ff6600;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        /* Banner */
+
+        .banner {
+            background: linear-gradient(to right, #ff9966, #ff5e62);
+            color: white;
+            text-align: center;
+            padding: 75px 20px;
+        }
+
+        .banner h2 {
+            font-size: 38px;
+            margin-bottom: 15px;
+        }
+
+        .banner p {
+            font-size: 19px;
+            margin-bottom: 25px;
+        }
+
+        .banner button {
+            background-color: white;
+            color: #ff6600;
+            border: none;
+            padding: 13px 28px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        /* Products Section */
+
+        .products {
+            padding: 45px 30px;
+            text-align: center;
+        }
+
+        .products h2 {
+            font-size: 30px;
+            margin-bottom: 35px;
+        }
+
+        .product-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+            gap: 25px;
+        }
+
+        /* Product Card */
+
+        .product-card {
+            background-color: white;
+            padding: 18px;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+
+        .product-card:hover {
+            transform: translateY(-6px);
+        }
+
+        .product-card img {
+            width: 100%;
+            height: 210px;
+            object-fit: contain;
+            border-radius: 8px;
+        }
+
+        .product-card h3 {
+            margin: 15px 0;
+            font-size: 20px;
+        }
+
+        .product-card .description {
+            font-size: 14px;
+            color: #666;
+            min-height: 40px;
+        }
+
+        .price {
+            color: #ff6600;
+            font-size: 22px;
+            font-weight: bold;
+            margin: 15px 0;
+        }
+
+        .category {
+            margin: 10px 0;
+            color: #555;
+        }
+
+        .stock {
+            color: green;
+            margin-bottom: 15px;
+        }
+
+        .add-cart {
+            background-color: #222;
+            color: white;
+            border: none;
+            padding: 12px 22px;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 15px;
+        }
+
+        .add-cart:hover {
+            background-color: #ff6600;
+        }
+
+        /* Empty Products */
+
+        .empty-message {
+            padding: 30px;
+            font-size: 18px;
+            color: #777;
+        }
+
+        /* Footer */
+
+        footer {
+            background-color: #222;
+            color: white;
+            text-align: center;
+            padding: 25px;
+            margin-top: 40px;
+        }
+
+        /* Responsive Design */
+
+        @media(max-width: 600px) {
+
+            nav a {
+                margin: 8px;
+                font-size: 14px;
+            }
+
+            .banner h2 {
+                font-size: 27px;
+            }
+
+            .search-section input {
+                width: 70%;
+            }
+
+            .products {
+                padding: 30px 15px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<!-- Header -->
+
+<header>
+
+    <h1>MY SHOPPING STORE</h1>
+
+    <p>Your Favourite Online Shopping Destination</p>
+
+</header>
+
+
+<!-- Navigation -->
+
+<nav>
+
+    <a href="/">Home</a>
+
+    <a href="/cart/">Cart</a>
+
+    <a href="/checkout/">Checkout</a>
+
+</nav>
+
+
+<!-- Search Section -->
+
+<section class="search-section">
+
+    <input type="text" id="searchInput" placeholder="Search your favourite products...">
+
+    <button onclick="searchProducts()">Search</button>
+
+</section>
+
+
+<!-- Banner -->
+
+<section class="banner">
+
+    <h2>Welcome to Online Shopping!</h2>
+
+    <p>Discover amazing products at affordable prices.</p>
+
+    <button onclick="document.getElementById('products').scrollIntoView({behavior:'smooth'})">
+
+        Shop Now
+
+    </button>
+
+</section>
+
+
+<!-- Products Section -->
+
+<section class="products" id="products">
+
+    <h2>Our Latest Products</h2>
+
+    <div class="product-container">
+
+        {% for product in products %}
+
+        <div class="product-card">
+
+            {% if product.image_url %}
+
+                <img src="{{ product.image_url }}" alt="{{ product.name }}">
+
+            {% else %}
+
+                <img src="https://placehold.co/300x210?text=No+Image" alt="No image available">
+
+            {% endif %}
+
+            <h3>{{ product.name }}</h3>
+
+            <p class="description">{{ product.description }}</p>
+
+            <p class="price">₹{{ product.price }}</p>
+
+            <p class="category">Category: {{ product.category }}</p>
+
+            <p class="stock">
+
+                {% if product.stock > 0 %}
+
+                    In Stock: {{ product.stock }}
+
+                {% else %}
+
+                    Out of Stock
+
+                {% endif %}
+
+            </p>
+
+            <button class="add-cart" {% if product.stock <= 0 %}disabled{% endif %}>
+
+                Add to Cart
+
+            </button>
+
+        </div>
+
+        {% empty %}
+
+        <div class="empty-message">
+
+            <h3>No Products Available!</h3>
+
+            <p>Please visit again soon.</p>
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+</section>
+
+
+<!-- Footer -->
+
+<footer>
+
+    <h3>MY SHOPPING STORE</h3>
+
+    <p>Shop More. Save More. Enjoy More.</p>
+
+    <br>
+
+    <p>© 2026 My Shopping Store. All Rights Reserved.</p>
+
+</footer>
+
+
+<!-- JavaScript Search -->
+
+<script>
+
+    function searchProducts() {
+
+        let input = document.getElementById("searchInput").value.toLowerCase();
+
+        let products = document.getElementsByClassName("product-card");
+
+        for (let i = 0; i < products.length; i++) {
+
+            let name = products[i].getElementsByTagName("h3")[0].innerText.toLowerCase();
+
+            if (name.includes(input)) {
+
+                products[i].style.display = "";
+
+            } else {
+
+                products[i].style.display = "none";
+
+            }
+
+        }
+
+    }
+
+</script>
+
+</body>
+
+</html>
